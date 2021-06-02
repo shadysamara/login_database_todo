@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:login_todo_database/models/task_model.dart';
-import 'package:login_todo_database/providers/db_provider.dart';
-import 'package:provider/provider.dart';
 
 class TaskItem extends StatelessWidget {
   Task task;
@@ -11,17 +9,13 @@ class TaskItem extends StatelessWidget {
     // TODO: implement build
     return Dismissible(
       key: ObjectKey(task),
-      onDismissed: (direction) {
-        Provider.of<DBProvider>(context, listen: false).deleteTask(task);
-      },
+      onDismissed: (direction) {},
       child: Card(
         child: ListTile(
           title: Text(task.title),
           trailing: Checkbox(
             value: task.isComplete,
-            onChanged: (value) {
-              Provider.of<DBProvider>(context, listen: false).updateTask(task);
-            },
+            onChanged: (value) {},
           ),
         ),
       ),

@@ -5,7 +5,6 @@ import 'package:login_todo_database/providers/db_provider.dart';
 import 'package:login_todo_database/ui/screens/tasbs_screens/all_tasks_tab.dart';
 import 'package:login_todo_database/ui/screens/tasbs_screens/complete_task_tab.dart';
 import 'package:login_todo_database/ui/screens/tasbs_screens/in_complete_tasks_tab.dart';
-import 'package:provider/provider.dart';
 
 class MainScreen extends StatelessWidget {
   GlobalKey<FormState> formKey = GlobalKey();
@@ -22,12 +21,7 @@ class MainScreen extends StatelessWidget {
   submitTask(BuildContext context) {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
-      try {
-        Provider.of<DBProvider>(context, listen: false).insertNewTask(Task(
-          title: this.title,
-        ));
-        Navigator.pop(context);
-      } catch (error) {
+      try {} catch (error) {
         showDialog(
           context: context,
           builder: (context) {
@@ -67,20 +61,7 @@ class MainScreen extends StatelessWidget {
               )
             ]),
           ),
-          body: FutureBuilder<List<Task>>(
-            future: Provider.of<DBProvider>(context).setAllLists(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return TabBarView(children: [
-                  AllTasksTab(),
-                  CompleteTasksTab(),
-                  InCompleteTasksTab()
-                ]);
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
-            },
-          ),
+          body: Container(),
           floatingActionButton: FloatingActionButton(onPressed: () {
             showModalBottomSheet(
                 backgroundColor: Colors.transparent,

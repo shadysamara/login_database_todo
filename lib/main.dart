@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:login_todo_database/providers/db_provider.dart';
+import 'package:login_todo_database/test_provider.dart';
 import 'package:login_todo_database/ui/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -13,37 +11,34 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<DBProvider>(
-      create: (BuildContext context) {
-        return DBProvider();
-      },
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        home: MainScreen(),
-      ),
+    return MaterialApp(
+      title: 'Flutter Demo',
+      home: testHive(),
     );
   }
 }
 
-// class testHive extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     // TODO: implement build
-//     return Scaffold(
-//       body: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: <Widget>[
-//           ValueListenableBuilder<Box<String>>(
-//             valueListenable: HiveHelper.helper.tasksBox.listenable(),
-//             builder: (context, value, child) {
-//               return Text(value.values.toList().length.toString());
-//             },
-//           ),
-//           RaisedButton(onPressed: () {
-//             HiveHelper.helper.tasksBox.add('hello');
-//           })
-//         ],
-//       ),
-//     );
-//   }
-// }
+class testHive extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return ChangeNotifierProvider<TestProvider>(
+      create: (context) => TestProvider(),
+      child: Scaffold(
+        body: Builder(builder: (context) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(Provider.of<TestProvider>(context).title),
+              RaisedButton(onPressed: () {
+                Provider.of<TestProvider>(context, listen: false)
+                    .changeTitle('value');
+              })
+            ],
+          );
+        }),
+      ),
+    );
+  }
+}
